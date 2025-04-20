@@ -1,0 +1,707 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: rgba(167, 147, 129, 0.2);
+}
+header{
+    margin-top: 2px;
+}
+.header__controls{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+        z-index: 2;
+}
+header a{
+    font-size: 0.7vw;
+    color: black;
+    text-decoration: none;
+}
+header h1{
+    font-size: 1.5vw;
+}
+.header__logo{
+    border-radius: 52%;
+    height: 3vw;
+    width: 3vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
+}
+.search-bar{
+    display: flex;
+    align-items: center;
+}
+.search-bar input
+{
+    padding: 4px 10px;
+    margin-left: 8vw;    margin-right: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: white;
+    height: 1.2vw;
+    width: 18vw;
+    font-size: 0.8vw;
+}
+nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4vw;    padding: 0;
+    margin: 0;
+    margin-right: 3vw;
+}
+nav ul li{
+    display: inline;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #2b2828;
+    font-size: 1vw;
+    font-weight: 600;
+}
+.login__btn{
+    background-color: #d3d3d3;
+    color: #333;
+    padding: 4px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 8vw;
+    height: 2vw;
+    font-size: 1vw;
+    margin-right: 2vw;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.login__btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+.review-page {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(139, 90, 43, 0.15);
+    text-align: left;
+}
+.review-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.review-header-section {
+    margin-bottom: 30px;
+}
+.review-book-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.book-cover-small {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.book-details {
+    flex: 1;
+}
+.book-details h2 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 24px;
+}
+.book-author {
+    color: #666;
+    font-size: 16px;
+    margin: 0 0 8px 0;
+}
+.book-rating, .author-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.stars {
+    color: #f0ad4e;
+    font-size: 18px;
+    margin-right: 5px;
+    display: inline-block;
+    line-height: 1;
+}
+.stars i {
+    margin-right: 2px;
+}
+.stars .fas, .stars .far, .stars .fa-star, .stars .fa-star-half-alt {
+    display: inline-block;
+}
+.rating-count, .rating-value {
+    color: #666;
+    font-size: 14px;
+    margin-left: 5px;
+    font-weight: 500;
+}
+.review-full {
+    background-color: rgba(248, 244, 240, 0.7);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.review-author-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.author-details {
+    flex: 1;
+}
+.author-details h3 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 18px;
+}
+.review-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.review-date {
+    color: #888;
+    font-size: 14px;
+}
+.subscribe-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #8b5a2b;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.subscribe-btn:hover {
+    background-color: #a16b3b;
+}
+.subscribe-btn.subscribed {
+    background-color: #808080;
+    cursor: pointer;
+}
+.subscribe-btn.subscribed:hover {
+    background-color: #666666;
+}
+.review-title {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+.review-content {
+    color: #444;
+    line-height: 1.6;
+}
+.review-content p {
+    margin-bottom: 20px;
+}
+.review-content p:last-child {
+    margin-bottom: 0;
+}
+.review-tags {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.tag {
+    background-color: rgba(139, 90, 43, 0.1);
+    color: #8b5a2b;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    display: inline-block;
+}
+.more-reviews {
+    margin-top: 60px;
+}
+.more-reviews h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+.review-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.review-book-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.review-card-content {
+    padding: 15px;
+}
+.review-card-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+.review-snippet {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.review-card-date {
+    color: #888;
+    font-size: 12px;
+    display: block;
+}
+footer {
+    background-color: #333;
+    color: white;
+    padding: 30px 0 15px;
+    margin-top: 50px;
+}
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 0 20px;
+}
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-logo-img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.footer-logo h3 {
+    margin: 0;
+    font-size: 18px;
+}
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+.footer-links a:hover {
+    color: #ddd;
+}
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+.footer-social a {
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+.footer-social a:hover {
+    color: #ddd;
+}
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+    color: #ddd;
+}
+@media screen and (min-width: 1200px) {
+    .review-page {
+        max-width: 1200px;
+        padding: 30px;
+    }
+    
+    .review-title {
+        font-size: 32px;
+    }
+    
+    .review-content {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 1199px) and (min-width: 769px) {
+    .header__controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .header__logo {
+        height: 4vw;
+        width: 4vw;
+    }
+    
+    header h1 {
+        font-size: 2vw;
+    }
+    
+    .search-bar input {
+        margin-left: 4vw;
+        width: 16vw;
+    }
+    
+    nav ul {
+        gap: 3vw;
+    }
+    
+    nav ul li a {
+        font-size: 1.2vw;
+    }
+    
+    .login__btn {
+        width: 10vw;
+        font-size: 1.2vw;
+    }
+    
+    .review-page {
+        padding: 20px;
+    }
+    
+    .review-book-info {
+        gap: 15px;
+    }
+    
+    .book-cover-small {
+        width: 100px;
+    }
+    
+    .review-title {
+        font-size: 24px;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 768px) and (min-width: 481px) {
+    .header__controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .header__logo {
+        height: 6vw;
+        width: 6vw;
+        margin-bottom: 1vw;
+    }
+    
+    header h1 {
+        font-size: 3vw;
+        margin-bottom: 1vw;
+    }
+    
+    .search-bar {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1vw;
+    }
+    
+    .search-bar input {
+        margin-left: 0;
+        width: 50vw;
+        height: 3vw;
+        font-size: 1.5vw;
+    }
+    
+    nav ul {
+        gap: 4vw;
+        margin: 2vw 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    nav ul li a {
+        font-size: 2vw;
+    }
+    
+    .login__btn {
+        width: 15vw;
+        height: 4vw;
+        font-size: 2vw;
+        margin: 2vw 0;
+    }
+    
+    .review-page {
+        padding: 15px;
+    }
+    
+    .review-container {
+        padding: 15px;
+    }
+    
+    .review-book-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .book-cover-small {
+        margin-bottom: 15px;
+    }
+    
+    .book-rating {
+        justify-content: center;
+    }
+    
+    .review-title {
+        font-size: 22px;
+        text-align: center;
+    }
+    
+    .review-author-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .author-avatar {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .author-details {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .review-meta {
+        justify-content: center;
+    }
+    
+    .review-reactions {
+        justify-content: center;
+    }
+    
+    .review-tags {
+        justify-content: center;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stars {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .header__controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .header__logo {
+        height: 10vw;
+        width: 10vw;
+        margin: 2vw 0;
+    }
+    
+    header h1 {
+        font-size: 5vw;
+        margin: 1vw 0;
+    }
+    
+    .search-bar {
+        width: 90%;
+        margin: 2vw 0;
+    }
+    
+    .search-bar input {
+        margin-left: 0;
+        width: 90%;
+        height: 5vw;
+        font-size: 3vw;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 2vw;
+        margin: 3vw 0;
+    }
+    
+    nav ul li a {
+        font-size: 4vw;
+    }
+    
+    .login__btn {
+        width: 40vw;
+        height: 8vw;
+        font-size: 3.5vw;
+        margin: 2vw 0;
+    }
+    
+    .review-page {
+        padding: 10px;
+        margin: 10px;
+    }
+    
+    .review-container {
+        padding: 10px;
+    }
+    
+    .back-button a {
+        font-size: 16px;
+    }
+    
+    .review-book-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .book-cover-small {
+        width: 100px;
+    }
+    
+    .book-details h2 {
+        font-size: 20px;
+    }
+    
+    .book-author {
+        font-size: 14px;
+    }
+    
+    .review-full {
+        padding: 15px;
+    }
+    
+    .review-author-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .author-avatar {
+        margin-right: 0;
+    }
+    
+    .author-details {
+        margin-bottom: 5px;
+    }
+    
+    .review-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .review-title {
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .review-content {
+        font-size: 14px;
+    }
+    
+    .review-reactions, .review-tags {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .reaction-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    .tag {
+        font-size: 11px;
+    }
+    
+    .review-comments {
+        padding: 15px;
+    }
+    
+    .review-comments h2 {
+        font-size: 18px;
+    }
+    
+    .comment {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .comment-avatar {
+        margin-bottom: 10px;
+    }
+    
+    .comment-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .comment-actions {
+        justify-content: center;
+    }
+    
+    .more-reviews h2 {
+        font-size: 18px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .footer-links ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .stars {
+        font-size: 14px;
+    }
+}
+/* Убираем подчеркивание со всех ссылок в компоненте */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+} 

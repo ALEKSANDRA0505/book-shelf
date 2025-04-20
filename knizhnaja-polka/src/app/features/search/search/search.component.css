@@ -1,0 +1,209 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+main {
+    padding: 30px;
+}
+.search-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    text-align: left;
+}
+.search-filters {
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.search-filters h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.filter-group {
+    margin-bottom: 20px;
+}
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.checkbox-label input {
+    margin-right: 8px;
+}
+.sort-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+}
+.search-results {
+    flex: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.search-results h2 {
+    font-size: 22px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.results-section {
+    margin-bottom: 30px;
+}
+.results-section h3 {
+    font-size: 18px;
+    color: #8b5a2b;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+.results-grid {
+    display: grid;
+    gap: 20px;
+}
+.books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.book-result {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    overflow: hidden;
+}
+.book-result:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.book-cover {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.book-info {
+    text-align: left;
+}
+.book-rating {
+    color: #f3a601;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.book-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+.book-author {
+    font-size: 14px;
+    color: #666;
+}
+.people-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.person-result {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+    text-align: center;
+}
+.person-result:hover {
+    transform: translateY(-5px);
+}
+.person-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    border: 2px solid #eee;
+}
+.person-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.person-info {
+    text-align: center;
+}
+.person-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+.person-details {
+    font-size: 12px;
+    color: #666;
+}
+.genres-list {
+    display: flex;
+    flex-direction: column;     gap: 5px; }
+.genre-result {
+    display: block;     text-decoration: none;     color: #333;     font-family: 'Raleway', sans-serif;     padding: 5px 0;     transition: color 0.2s; }
+.genre-result:hover {
+    color: #8b5a2b; }
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+}
+.no-results p {
+    margin: 5px 0;
+}
+@media (max-width: 900px) {
+    .search-container {
+        flex-direction: column;
+    }
+    
+    .search-filters {
+        width: 100%;
+    }
+    
+    .filter-options {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}
+@media (max-width: 600px) {
+    .books-grid,
+    .people-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

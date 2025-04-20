@@ -1,0 +1,32 @@
+<div class="writers-container">
+    <main class="writers-page">
+        <h1 class="page-title">Писатели</h1>
+        <div class="writers-search">
+            <input type="text" placeholder="Поиск" class="writers-search-input" [(ngModel)]="searchTerm" (input)="search()">
+        </div>
+        
+        <div *ngIf="isLoading" class="loading-indicator" style="text-align: center; padding: 40px; font-size: 1.1em; color: #666;">
+            Загрузка авторов...
+        </div>
+        <div *ngIf="error" class="error-message" style="text-align: center; padding: 40px; font-size: 1.1em; color: red;">
+            {{ error }}
+        </div>
+        <div *ngIf="!isLoading && !error" class="writers-list">
+            <a *ngFor="let writer of filteredWriters" 
+               [routerLink]="['/writer-profile', writer.id_writer]" class="writer-item">
+                <div class="writer-avatar">
+                    <img [src]="writer.profile_picture_url || 'assets/img/default-avatar.png'" alt="{{writer.name}}">
+                </div>
+                <div class="writer-info">
+                    <h2 class="writer-name">{{writer.name}}</h2>
+                </div>
+            </a>
+             <div *ngIf="!isLoading && !error && filteredWriters.length === 0 && searchTerm === ''" style="text-align: center; padding: 40px; color: #666;">
+                Список писателей пуст.
+             </div>
+             <div *ngIf="!isLoading && !error && filteredWriters.length === 0 && searchTerm !== ''" style="text-align: center; padding: 40px; color: #666;">
+                Писатели по вашему запросу не найдены.
+             </div>
+        </div>
+    </main>
+</div>

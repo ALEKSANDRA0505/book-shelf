@@ -1,0 +1,75 @@
+<main class="review-page">
+    <div *ngIf="isLoading" class="loading-indicator" style="text-align: center; padding: 50px;">
+        Загрузка рецензии...
+    </div>
+
+    <div *ngIf="error" class="error-message" style="text-align: center; padding: 50px; color: red;">
+        {{ error }}
+    </div>
+
+    <div class="review-container" *ngIf="!isLoading && !error && review">
+        <div class="review-header-section">
+            <div class="review-book-info" *ngIf="book">
+                <img [src]="book.cover_image_url || 'assets/img/placeholder_book.png'" [alt]="book.title" class="book-cover-small">
+                <div class="book-details">
+                    <a [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}" class="book-link">
+                        <h2>{{ book.title }}</h2>
+                    </a>
+                    <p class="book-author">{{ getAuthors() }}</p>
+                    <div class="book-rating">
+                        <span class="stars">
+                            <i *ngFor="let starClass of getStars(getBookRating())" [class]="starClass"></i>
+                        </span>
+                        <span class="rating-count">{{ getBookRating() }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <article class="review-full">
+            <div class="review-author-info">
+                <img [src]="getAvatarUrl()" alt="Автор рецензии" class="author-avatar">
+                <div class="author-details">
+                    <a *ngIf="isUserAuthorStatus()" [routerLink]="['/author-profile']" [queryParams]="{id: this.review.id_user}" class="author-link">  
+                        <h3>{{ getUsername() }}</h3>
+                    </a>
+                    <h3 *ngIf="!isUserAuthorStatus()">{{ getUsername() }}</h3>
+                    <div class="review-meta">
+                        <span class="review-date">{{ review.created_at | date:'dd.MM.yyyy HH:mm' }}</span>
+                        <div class="author-rating">
+                            <span class="stars">
+                                <i *ngFor="let starClass of getStars(getReviewRating())" [class]="starClass"></i>
+                            </span>
+                            <span class="rating-value">{{ getReviewRating() }}</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="subscribe-btn" (click)="toggleSubscription()" [class.subscribed]="isAuthorSubscribed" *ngIf="!isCurrentUserAuthor && isUserAuthorStatus()">
+                    {{ isAuthorSubscribed ? 'Вы подписаны' : 'Подписаться' }}
+                </button>
+            </div>
+            <h1 class="review-title">{{ book?.title }}</h1>
+            <div class="review-content">
+                <p *ngIf="review.review_text">{{ review.review_text }}</p>
+                <p *ngIf="!review.review_text" style="font-style: italic;">Текст рецензии отсутствует</p>
+            </div>
+        </article>
+        <section class="more-reviews" *ngIf="relatedReviews.length > 0">
+            <h2>Другие рецензии этого автора</h2>
+            
+            <div *ngIf="isLoadingRelated" class="loading-indicator" style="text-align: center; padding: 20px;">
+                Загрузка других рецензий...
+            </div>
+            
+            <div class="reviews-grid" *ngIf="!isLoadingRelated">
+                <div class="review-card" *ngFor="let relatedReview of relatedReviews" [routerLink]="['/review-detail', relatedReview.id_review]">
+                    <img [src]="getBookCoverUrl(relatedReview)" alt="Обложка книги" class="review-book-cover">
+                    <div class="review-card-content">
+                        <h3>{{ relatedReview.book_title }}</h3>
+                        <p class="review-snippet">{{ relatedReview.review_text | slice:0:100 }}{{ relatedReview.review_text && relatedReview.review_text.length > 100 ? '...' : '' }}</p>
+                        <span class="review-card-date">{{ relatedReview.created_at | date:'dd.MM.yyyy' }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

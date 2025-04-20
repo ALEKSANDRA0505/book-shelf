@@ -1,0 +1,341 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+main {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    display: block;
+    z-index: 1;
+    padding-bottom: 30px;     min-height: auto; }
+*{
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;    
+}
+.genres__photo {
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    min-height: 100%;
+}
+.genres {
+    margin: 20px auto;
+    text-align: left;
+    position: relative;
+    padding: 0 20px 0;     box-sizing: border-box;
+    width: 100%;
+    z-index: 1;
+}
+.genres h1 {
+    text-align: left;
+    margin-left: 20px;
+    font-size: 1.8vw;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.name{
+    color: black;
+    text-decoration: none;
+}
+.genre__container, .book__container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    padding: 20px 0;
+    gap: 60px;
+    margin-bottom: 20px;
+    padding-right: 60px;
+    justify-content: flex-start;
+    width: calc(100% - 20px);
+}
+.book__container {
+    margin-bottom: 0;     width: 100%;     justify-content: space-between;     gap: 10px;     padding: 20px 20px 20px 0;     flex-wrap: nowrap;     box-sizing: border-box;
+}
+.genre__container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    padding: 20px 0;
+    gap: 60px;     margin-bottom: 20px;     padding-right: 60px;     -webkit-overflow-scrolling: touch;     cursor: grab;     scrollbar-width: none;     -ms-overflow-style: none;     transition: all 0.5s ease;
+}
+.genre__container.scrolling-animation {
+    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.scrolling-animation .genre__item {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.scrolling-animation .genre__item:not(:hover) {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+.genre__container:active {
+    cursor: grabbing;
+}
+.genre__container::-webkit-scrollbar, .book__container::-webkit-scrollbar {
+    display: none;
+}
+.genre__item {
+    min-width: 220px;     height: 140px;     background-color: #555;     background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    flex: 1;     max-width: 250px; }
+.genre__item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.genre__item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    z-index: 1;
+    transition: background-color 0.3s;
+}
+.genre__item:hover::before {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.genre__item h2 {
+    margin: 0;
+    font-size: 1.4vw;     position: relative;
+    z-index: 2;
+}
+.book__item {
+    min-width: 150px;     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;     text-decoration: none;
+    color: #333;
+    flex: 1;     max-width: calc((100% - 50px) / 6);     transition: max-width 0.3s ease;
+    padding: 10px;
+    border-radius: 8px;
+}
+.book__item img {
+    width: 140px;     height: 210px;     object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+.book__item:hover {
+    background-color: transparent;
+    box-shadow: none;
+}
+.book__item:hover img {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+.book__item h2 {
+    margin: 10px 0 5px;
+    font-size: 1vw;
+}
+.book__item .author {
+    font-size: 0.8vw;
+    color: #666;
+    margin: 0;
+}
+.book__item .rating {
+    color: #f0ad4e;
+    font-size: 1vw;
+    margin: 5px 0;
+}
+.book__container .see-all {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.2vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+    transition: transform 0.3s, background-color 0.3s;
+}
+.book__container .see-all:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+.genre-controls {
+    position: relative;
+}
+.genre-section {
+    position: relative;
+    margin-bottom: 20px;     width: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+}
+.scroll-btn {
+    position: absolute;
+    top: 85px;     transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.scroll-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+.scroll-btn:active {
+    transform: translateY(-50%) scale(0.95);
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+}
+.scroll-btn:active fa-icon {
+    animation: iconPulse 0.3s ease-out;
+}
+@keyframes iconPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.scroll-left, .scroll-right {
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.3s ease;
+}
+.scroll-left.active {
+    animation: fadeInLeftArrow 0.5s forwards;
+}
+.scroll-right.active {
+    animation: fadeInRightArrow 0.5s forwards;
+}
+@keyframes fadeInLeftArrow {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+        visibility: visible;
+    }
+}
+@keyframes fadeInRightArrow {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) translateX(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+        visibility: visible;
+    }
+}
+.scroll-left {
+    left: 10px;
+    right: auto;
+    opacity: 0;
+    visibility: hidden;
+}
+.scroll-right {
+    left: auto;
+    right: 10px;
+    opacity: 0;
+    visibility: hidden;
+}
+@media (max-width: 768px) {
+    .scroll-left {
+        left: 5px;
+    }
+    
+    .scroll-right {
+        right: 5px;
+    }
+}
+.scroll-btn.scroll-left:active fa-icon {
+    animation: moveLeft 0.5s ease;
+}
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-3px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+.scroll-btn.scroll-right:active fa-icon {
+    animation: moveRight 0.5s ease;
+}
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(3px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+.scroll-btn fa-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+@media (max-width: 1200px) {
+    .book__item {
+        max-width: calc((100% - 40px) / 4);     }
+}
+@media (max-width: 768px) {
+    .book__item {
+        max-width: calc((100% - 20px) / 3);     }
+}
+@media (max-width: 480px) {
+    .book__item {
+        max-width: calc((100% - 10px) / 2);     }
+}

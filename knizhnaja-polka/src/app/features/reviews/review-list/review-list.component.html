@@ -1,0 +1,69 @@
+<main class="review-container">
+    <h2 class="review-title">Рецензия</h2>
+    
+    <div class="review-content">
+      <div class="book-cover-container">
+        <div class="book-cover">
+          <img src="assets/img/обложка.jpg" alt="Обложка книги">
+        </div>
+      </div>
+      <div class="review-details">
+        <div class="book-info">
+          <div *ngIf="!isNewBook">
+            <label for="bookSelect">Книга:</label>
+            <select id="bookSelect" [(ngModel)]="selectedBookId" (change)="onBookSelectionChange()" class="book-input">
+              <option [ngValue]="null" disabled>-- Выберите книгу --</option>
+              <option *ngFor="let book of allBooks" [ngValue]="book.id_book">{{ book.title }}</option>
+            </select>
+            <label for="bookAuthor">Автор:</label>
+            <input type="text" id="bookAuthor" [(ngModel)]="bookAuthor" class="book-input" placeholder="Автор книги" [readOnly]="selectedBookId !== null">
+          </div>
+          <div *ngIf="isNewBook">
+            <label for="newBookTitle">Название новой книги:</label>
+            <input type="text" id="newBookTitle" [(ngModel)]="bookTitle" class="book-input" placeholder="Название книги">
+            <label for="newBookAuthor">Автор новой книги:</label>
+            <input type="text" id="newBookAuthor" [(ngModel)]="bookAuthor" class="book-input" placeholder="Автор книги">
+          </div>
+          <div class="new-book-toggle">
+            <input type="checkbox" id="newBookCheckbox" [(ngModel)]="isNewBook" (change)="onNewBookToggle()">
+            <label for="newBookCheckbox">Книги нет в списке? (добавить новую)</label>
+          </div>
+        </div>
+        
+        <div class="rating-stars" (mouseout)="resetStars()">
+          <span *ngFor="let rating of [1, 2, 3, 4, 5]"
+                class="star" 
+                [class.active]="rating <= (hoveredRating || selectedRating)"
+                [attr.data-rating]="rating"
+                (mouseover)="highlightStars(rating)"
+                (click)="setRating(rating)">
+            &#9733;
+          </span>
+        </div>
+        <div *ngIf="isNewBook" class="genre-selector">
+          <label for="genreSelect">Жанр(ы):</label>
+          <select id="genreSelect" [(ngModel)]="selectedGenreIds" multiple class="book-input">
+            <option *ngFor="let genre of genres" [ngValue]="genre.id_genre">{{ genre.name }}</option>
+          </select>
+          <small>(Удерживайте Ctrl/Cmd для выбора нескольких)</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="review-text-section">
+      <h3>Напишите свои впечатления</h3>
+      <textarea id="reviewText" [(ngModel)]="reviewText" rows="6" placeholder="Поделитесь своими мыслями о книге..."></textarea>
+      
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <div class="submit-section">
+        <button class="publish-btn" (click)="publishReview()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Публикация...' : 'Опубликовать' }}
+        </button>
+      </div>
+    </div>
+</main>

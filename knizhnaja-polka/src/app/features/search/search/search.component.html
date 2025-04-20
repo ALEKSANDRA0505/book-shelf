@@ -1,0 +1,85 @@
+<div class="search-container">
+    <!-- 
+    <div class="search-filters">
+        <h3>Фильтры поиска</h3>
+        ...
+    </div> 
+    -->
+    <div class="search-results">
+        <h2>Результаты поиска по запросу: "{{ searchQuery }}"</h2>
+        <div *ngIf="isLoading" class="loading-indicator">Идет поиск...</div>
+        <div *ngIf="!isLoading && errorMessage" class="error-message">{{ errorMessage }}</div>
+        <ng-container *ngIf="!isLoading && !errorMessage && searchResults">
+            
+            <div class="results-section" *ngIf="searchResults.books.length > 0">
+                <h3>Найденные книги ({{ searchResults.books.length }})</h3>
+                <div class="results-grid books-grid">
+                    <a *ngFor="let book of searchResults.books" 
+                       [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}" 
+                       class="book-result">
+                        <div class="book-cover">
+                            <img [src]="book.cover_image_url || 'assets/img/placeholder.jpg'" [alt]="book.title">
+                        </div>
+                        <div class="book-info">
+                            <div class="book-rating">
+                                <ng-container *ngIf="book.average_rating !== null && book.average_rating !== undefined">
+                                    <i *ngFor="let star of getStars(book.average_rating)" [ngClass]="star" style="color: #f0ad4e;"></i>
+                                </ng-container>
+                                <span *ngIf="book.average_rating === null || book.average_rating === undefined" style="color: #6c757d; font-size: 0.9em;">Нет оценок</span>
+                            </div>
+                            <div class="book-title">{{ book.title }}</div>
+                            <div class="book-author">{{ getWritersString(book.writers) }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="results-section" *ngIf="searchResults.authors.length > 0">
+                <h3>Найденные авторы ({{ searchResults.authors.length }})</h3>
+                <div class="results-grid people-grid">
+                    <a *ngFor="let authorItem of searchResults.authors"
+                       [routerLink]="['/author-profile']" [queryParams]="{id: authorItem.id_user}"
+                       class="person-result">
+                        <div class="person-avatar">
+                            <img [src]="authorItem.profile_picture_url || 'assets/img/author_placeholder.png'" [alt]="authorItem.username">
+                        </div>
+                        <div class="person-info">
+                            <div class="person-name">{{ authorItem.username }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="results-section" *ngIf="searchResults.writers.length > 0">
+                <h3>Найденные писатели ({{ searchResults.writers.length }})</h3>
+                <div class="results-grid people-grid">
+                    <a *ngFor="let writerItem of searchResults.writers" 
+                       [routerLink]="['/writer-profile', writerItem.id_writer]"
+                       class="person-result">
+                        <div class="person-avatar">
+                            <img [src]="writerItem.profile_picture_url || 'assets/img/writer_placeholder.png'" [alt]="writerItem.name">
+                        </div>
+                        <div class="person-info">
+                            <div class="person-name">{{ writerItem.name }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="results-section" *ngIf="searchResults.genres.length > 0">
+                <h3>Найденные жанры ({{ searchResults.genres.length }})</h3>
+                <div class="results-list genres-list">
+                    <a *ngFor="let genreItem of searchResults.genres"
+                       [routerLink]="['/genres', genreItem.slug]"
+                       class="genre-result">
+                       {{ genreItem.name }}
+                    </a>
+                </div>
+            </div>
+            
+            <div class="no-results" *ngIf="searchResults.books.length === 0 && searchResults.writers.length === 0 && searchResults.genres.length === 0">
+                <p>По вашему запросу "{{ searchQuery }}" ничего не найдено.</p>
+            </div>
+        </ng-container> 
+    </div>
+</div>

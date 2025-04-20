@@ -1,0 +1,225 @@
+body {
+  font-family: 'Raleway', sans-serif;
+}
+app-writers-list {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-writers-list::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-authors-list {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-authors-list::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-chat {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-chat::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(167, 147, 129, 0.2);
+    z-index: -999;
+}
+app-about {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-about::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-search {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-search::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-genres {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-genres::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-book-detail {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-book-detail::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-writer-profile {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-writer-profile::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-author-profile {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-author-profile::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-user-profile {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-user-profile::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-review-list {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-review-list::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-admin-panel {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-admin-panel::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+app-all-books {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-all-books::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+
+app-review-detail {
+    position: relative;
+    display: block;
+    min-height: 100vh;
+}
+app-review-detail::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/bezh_back.jpg') no-repeat center center/cover;
+    z-index: -999;
+}
+
+/* Глобальные стили для всех ссылок в приложении */
+a {
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+

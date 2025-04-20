@@ -1,0 +1,46 @@
+<div class="about__photo"></div>
+<main>
+    <section class="hero">
+        <h1>Открой для себя новые книги и расскажи о любимых другим!</h1>
+        <p>Читайте рецензии, делитесь мнением<br>и находите книги по своим предпочтениями</p>
+    </section>
+    <section class="popular">
+        <h1>Популярное сейчас</h1>
+        <div *ngIf="isLoading" class="loading-indicator">Загрузка популярных книг...</div>
+        <div *ngIf="!isLoading && errorMessage" class="error-message">{{ errorMessage }}</div>
+        <div *ngIf="!isLoading && !errorMessage && bookSlides.length === 0" class="info-message">Нет популярных книг для отображения.</div>
+        <div class="book-list" *ngIf="!isLoading && !errorMessage && bookSlides.length > 0">
+            <button class="prev__btn" (click)="prevBookSlide()" [disabled]="bookSlides.length <= 1">&#x276E;</button>
+            <a *ngFor="let book of bookSlides[currentBookSlide]" 
+               [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}" 
+               class="book-card">
+                <img [src]="book.cover_image_url || 'assets/img/placeholder.jpg'" [alt]="book.title">
+                <h3>{{ book.title }}</h3>
+                <p>{{ getWritersString(book.writers) }}</p>
+                <div class="rating">
+                  <ng-container *ngIf="book.average_rating !== null && book.average_rating !== undefined">
+                      <i *ngFor="let star of getStars(book.average_rating)" [ngClass]="star" style="color: #f0ad4e;"></i>
+                      <span style="margin-left: 5px; color: #6c757d; font-size: 0.9em;">({{ (book.average_rating || 0) | number:'1.1-1' }})</span>
+                  </ng-container>
+                  <ng-container *ngIf="book.average_rating === null || book.average_rating === undefined">
+                      <span style="color: #6c757d; font-size: 0.9em;">Нет оценок</span>
+                  </ng-container>
+                </div>
+            </a>
+            <button class="next__btn" (click)="nextBookSlide()" [disabled]="bookSlides.length <= 1">&#x276F;</button>
+        </div>
+    </section>
+    <section class="about__menu">
+        <div class="menu__controls">
+            <button class="prev__btn" (click)="prevSlide()">&#x276E;</button>
+            <div class="menu-slide" *ngFor="let slide of slides; let i = index" [style.display]="i === currentSlide ? 'block' : 'none'">
+                <h2>{{ slide.title }}</h2>
+                <p>{{ slide.description }}</p>
+                <button *ngIf="slide.buttonText" class="about_menu-button" [routerLink]="slide.route">
+                    {{ slide.buttonText }}
+                </button>
+            </div>
+            <button class="next__btn" (click)="nextSlide()">&#x276F;</button>
+        </div>
+    </section>
+</main>

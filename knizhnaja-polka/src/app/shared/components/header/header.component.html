@@ -1,0 +1,26 @@
+<header>
+    <div class="header__controls">
+        <a [routerLink]="['/']"><img class="header__logo" src="/assets/img/logo.jpg"></a>
+        <a [routerLink]="['/']"><h1>Книжная полка</h1></a>
+        <div class="search-bar">
+                <input type="text" [(ngModel)]="searchQuery" placeholder="Поиск книг, авторов, писателей..." (keyup.enter)="onSearch()">
+        </div>
+        <nav>
+                <ul>
+                        <li><a [routerLink]="['/book-shelf']">Полки</a></li>
+                        <li><a [routerLink]="['/writers-list']">Писатели</a></li>
+                        <li><a [routerLink]="['/authors-list']">Авторы</a></li>
+                        <li><a [routerLink]="['/chat']">Чат</a></li>
+                        <li><a [routerLink]="['/about']">О сайте</a></li>
+                </ul>
+        </nav>
+        <div class="auth-section">
+                <button *ngIf="isLoggedIn" class="profile__btn" (click)="navigateToProfile()">
+                    Профиль
+                </button>
+                <button *ngIf="!isLoggedIn" class="login__btn" (click)="navigateToLogin()">
+                    Войти
+                </button>
+        </div>
+    </div>
+</header>

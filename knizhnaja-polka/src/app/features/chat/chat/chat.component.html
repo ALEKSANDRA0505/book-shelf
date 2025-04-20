@@ -1,0 +1,129 @@
+<main>
+    <div class="chat-container animate__animated animate__fadeIn animate__faster">
+      <div class="chat-header">
+        <h2 id="chat-title">{{chatTitle}}</h2>
+        <div class="chat-mode-toggle">
+          <button class="toggle-btn" [ngClass]="{'active': currentMode === 'bot'}" (click)="toggleMode('bot')">Книжный помощник</button>
+          <button class="toggle-btn" [ngClass]="{'active': currentMode === 'public'}" (click)="toggleMode('public')">Общий чат</button>
+        </div>
+      </div>
+      
+      <div class="chat-sidebar">
+        <div class="sidebar-content bot-sidebar" [ngClass]="{'active': currentMode === 'bot'}">
+          <div class="chat-info">
+            <h3>О помощнике</h3>
+            <p>Рассказывайте о своих предпочтениях в литературе, и наш бот порекомендует вам подходящие книги.</p>
+          </div>
+  
+          <div class="chat-suggestions">
+            <h3>Подсказки для запроса</h3>
+            <ul>
+              <li *ngFor="let command of botCommands" (click)="setCommandText(command.text)">
+                 <i [class]="command.icon"></i> {{command.display_text}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="sidebar-content public-sidebar" [ngClass]="{'active': currentMode === 'public'}">
+          <div class="chat-room-info">
+            <h3>Общий чат</h3>
+            <p>Обсуждайте книги и делитесь впечатлениями с другими читателями.</p>
+          </div>
+          
+          <div class="chat-rules">
+            <h3>Правила чата</h3>
+            <ul>
+              <li *ngFor="let rule of chatRules">
+                <i [class]="rule.icon"></i> {{rule.text}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <div class="chat-messages">
+        <div class="messages-container bot-messages" #botMessagesContainer [ngClass]="{'active': currentMode === 'bot'}">
+          <div class="message" [ngClass]="message.type + ' animate__animated animate__fadeInUp'" *ngFor="let message of botMessages">
+            <div class="message-avatar" *ngIf="message.type === 'received'" style="border-radius: 50% !important;">
+              <img [src]="message.user_profile_picture_url || 'assets/img/a9a7392fdbbfdb00d58ea345ca96198f.avif'" alt="Бот" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="message-content">
+              <div class="message-info">
+                <span class="message-author" *ngIf="message.type === 'received'">{{ message.user_username }}</span>
+                <span class="message-time">{{ message.sent_at | date:'HH:mm' }}</span>
+              </div>
+              <div class="message-text">{{ message.message_text }}</div>
+            </div>
+          </div>
+          <div class="message received animate__animated animate__fadeInUp" *ngIf="isBotTyping">
+            <div class="message-avatar" style="border-radius: 50% !important;">
+              <img src="assets/img/a9a7392fdbbfdb00d58ea345ca96198f.avif" alt="Бот" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="message-content typing-indicator">
+              <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="messages-container public-messages" #publicMessagesContainer [ngClass]="{'active': currentMode === 'public'}">
+          <div *ngIf="isLoadingPublicMessages" style="text-align: center; padding: 30px; color: #666;">
+            Загрузка сообщений...
+          </div>
+          <div *ngIf="!isLoadingPublicMessages && publicMessagesError" style="text-align: center; padding: 30px; color: red;">
+            {{ publicMessagesError }}
+          </div>
+          <div *ngIf="!isLoadingPublicMessages && !publicMessagesError && publicMessages.length === 0" style="text-align: center; padding: 30px; color: #666;">
+            В этом чате пока нет сообщений.
+          </div>
+          <ng-container *ngIf="!isLoadingPublicMessages && !publicMessagesError && publicMessages.length > 0">
+            <div class="message animate__animated animate__fadeInUp"
+                 [ngClass]="message.id_user === currentUserId ? 'sent' : 'received'" 
+                 *ngFor="let message of publicMessages">
+              <div class="message-avatar" *ngIf="message.id_user !== currentUserId" style="border-radius: 50% !important;">
+                <img [src]="message.user_profile_picture_url || 'assets/img/default-avatar.png'" [alt]="message.user_username" style="border-radius: 50% !important; width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="message-content">
+                <div class="message-info">
+                  <span class="message-author">
+                    <a [routerLink]="['/profile', message.id_user]" *ngIf="message.id_user && message.id_user !== currentUserId">{{ message.user_username }}</a>
+                    <span *ngIf="!message.id_user || message.id_user === currentUserId">{{ message.user_username }}</span>
+                  </span>
+                  <span class="message-time">{{ message.sent_at | date:'HH:mm' }}</span>
+                </div>
+                <div class="message-text">
+                  {{ message.message_text }}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+  
+      <div class="chat-input">
+        <form id="message-form" (ngSubmit)="sendMessage()">
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="message-input" 
+              #messageInput
+              [placeholder]="getInputPlaceholder()" 
+              [(ngModel)]="messageText" 
+              [disabled]="isSendingMessage || isBotTyping"
+              name="messageText">
+            <button type="submit" class="send-btn" [disabled]="isSendingMessage || !messageText.trim()">
+              <i class="fas fa-paper-plane" *ngIf="!isSendingMessage"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isSendingMessage"></i>
+            </button>
+          </div>
+          <div *ngIf="sendMessageError || botError" style="color: red; font-size: 12px; text-align: right; margin-top: 5px;">
+            {{ sendMessageError || botError }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>

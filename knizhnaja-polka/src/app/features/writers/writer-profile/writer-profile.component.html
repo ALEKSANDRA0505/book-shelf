@@ -1,0 +1,32 @@
+<main>
+  <div *ngIf="isLoadingWriter" class="loading-indicator" style="padding: 50px; text-align: center;">
+    Загрузка данных писателя...
+  </div>
+  <div *ngIf="error" class="error-message" style="padding: 50px; text-align: center; color: red;">
+    {{ error }}
+  </div>
+  <div *ngIf="!isLoadingWriter && writer" class="writer">
+    <h1>{{ writer.name }}</h1> 
+    <div *ngIf="isLoadingBooks" class="loading-indicator" style="padding: 20px; text-align: center;">
+      Загрузка книг...
+    </div>
+    <div *ngIf="!isLoadingBooks">
+      <div class="shelf-row"> 
+        <!-- <h2>{{ shelf.title }}</h2> --> 
+        <div class="books-container"> 
+           <a [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}" class="book-card" *ngFor="let book of books">
+              <img [src]="book.cover_image_url || 'assets/img/placeholder_book.png'" [alt]="book.title" class="book-cover">
+              <div class="book-info">
+                <div>
+                  <h3 class="book-title">{{ book.title }}</h3>
+                </div>
+              </div>
+            </a>
+        </div>
+      </div>
+       <div *ngIf="!isLoadingBooks && books.length === 0" style="text-align: center; padding: 40px; color: #666;">
+          У этого писателя пока нет добавленных книг.
+       </div>
+    </div>
+  </div>
+</main>

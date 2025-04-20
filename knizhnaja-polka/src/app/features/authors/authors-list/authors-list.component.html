@@ -1,0 +1,26 @@
+<main class="autors-page">
+        <h1 class="page-title">Авторы</h1>
+        <div class="autors-search">
+                <input type="text" placeholder="Поиск" class="autors-search-input" [(ngModel)]="searchTerm" (input)="filterAuthors()">
+        </div>
+        <div *ngIf="isLoading" style="text-align: center; padding: 40px;">
+                Загрузка авторов...
+        </div>
+        <div *ngIf="!isLoading && error" style="text-align: center; padding: 40px; color: red;">
+                {{ error }}
+        </div>
+        <div class="autors-list" *ngIf="!isLoading && !error">
+                 <div *ngIf="filteredAuthors.length === 0" style="text-align: center; padding: 40px; color: #666;">
+                        Авторы не найдены.
+                 </div>
+                
+                <a [routerLink]="['/author-profile']" [queryParams]="{id: author.id}" class="autor-item" *ngFor="let author of filteredAuthors">
+                        <div class="autor-avatar">
+                                <img [src]="author.avatarUrl" alt="Автор {{ author.name }}">
+                        </div>
+                        <div class="autor-info">
+                                <h2 class="autor-name">{{ author.name }}</h2>
+                        </div>
+                </a>
+        </div>
+</main>

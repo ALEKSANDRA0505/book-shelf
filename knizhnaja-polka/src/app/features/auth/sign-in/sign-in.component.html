@@ -1,0 +1,86 @@
+<div class="about__photo"></div>
+<div class="container">
+    <div class="form-wrapper">
+        <div class="overlay-panel" id="overlay">
+            <div class="overlay-content">
+                <h2 id="overlay-title">ЧИТАТЕЛЬСКИЙ БИЛЕТ</h2>
+                <p id="overlay-text">У вас нет билета?</p>
+                <button id="switch-button" (click)="toggleForm()">Зарегистрируйтесь!</button>
+            </div>
+        </div>
+        <div class="form-box" id="login-form">
+            <h2>ВХОД</h2>
+            <p>Для входа введите Email и пароль</p>
+            <form (ngSubmit)="onLogin()">
+                <div class="input-group">
+                    <label for="login-email">Email адрес</label>
+                    <div class="input-with-icon">
+                        <span class="icon">📧</span>
+                        <input type="email" id="login-email" placeholder="email@address.com" required [(ngModel)]="loginEmail" name="loginEmail">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Пароль</label>
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="password" id="login-password" placeholder="••••••••" required [(ngModel)]="loginPassword" name="loginPassword">
+                        <span class="toggle-password" (click)="togglePasswordVisibility('login-password')">👁️</span>
+                    </div>
+                </div>
+                <a href="#" class="forgot-password">Забыли пароль?</a>
+                <button type="submit" [disabled]="loading">Войти</button>
+                <div *ngIf="loginError" class="error-message">
+                  {{ loginError }}
+                </div>
+                <div *ngIf="loading" class="loading-indicator">
+                  Загрузка...
+                </div>
+            </form>
+        </div>
+        <div class="form-box" id="register-form">
+            <h2>РЕГИСТРАЦИЯ</h2>
+            <form (ngSubmit)="onRegister()">
+                <div class="input-group">
+                    <label for="register-username">Имя пользователя</label>
+                    <div class="input-with-icon">
+                        <span class="icon">👤</span>
+                        <input type="text" id="register-username" placeholder="Придумайте имя" required [(ngModel)]="registerUsername" name="registerUsername">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="register-email">Email адрес</label>
+                    <div class="input-with-icon">
+                        <span class="icon">📧</span>
+                        <input type="email" id="register-email" placeholder="email@address.com" required [(ngModel)]="registerEmail" name="registerEmail">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Пароль</label>
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="password" id="register-password" placeholder="••••••••" required [(ngModel)]="registerPassword" name="registerPassword">
+                        <span class="toggle-password" (click)="togglePasswordVisibility('register-password')">👁️</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Введите пароль еще раз</label>
+                    <div class="input-with-icon">
+                        <span class="icon">🔒</span>
+                        <input type="password" id="confirm-password" placeholder="••••••••" required [(ngModel)]="confirmPassword" name="confirmPassword">
+                        <span class="toggle-password" (click)="togglePasswordVisibility('confirm-password')">👁️</span>
+                    </div>
+                </div>
+                <div *ngIf="registerError" class="error-message">
+                  {{ registerError }}
+                </div>
+                <div *ngIf="registerSuccess" class="success-message">
+                  {{ registerSuccess }}
+                </div>
+                 <div *ngIf="loading" class="loading-indicator">
+                  Загрузка...
+                </div>
+                <button type="submit" [disabled]="loading">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+</div>

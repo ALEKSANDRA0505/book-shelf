@@ -1,0 +1,66 @@
+<div *ngIf="isLoading" style="text-align: center; padding: 50px;">
+  Загрузка профиля автора...
+</div>
+<div *ngIf="error" style="text-align: center; padding: 50px; color: red;">
+  {{ error }}
+</div>
+<main *ngIf="!isLoading && !error && author" class="author-profile-page">
+  
+  <h1 class="page-title">Профиль автора</h1> 
+  <div class="profile-header">
+    <div class="author-avatar">
+      <img [src]="author.profile_picture_url || 'assets/img/default-avatar.png'" 
+           [alt]="'Аватар ' + author.username">
+    </div>
+    <div class="author-info">
+      <h1>{{ author.username }}</h1>
+      <button class="subscribe-button" 
+              [class.subscribed]="isSubscribed" 
+              (click)="toggleSubscribe()"
+              [disabled]="isLoadingSubscriptionStatus || isTogglingSubscription">
+        <span *ngIf="!isTogglingSubscription">{{ isSubscribed ? 'Вы подписаны' : 'Подписаться' }}</span>
+        <span *ngIf="isTogglingSubscription">Загрузка...</span>
+      </button>
+      <div *ngIf="subscriptionError" style="color: red; font-size: 12px; margin-top: 5px;">
+        {{ subscriptionError }}
+      </div>
+    </div>
+  </div>
+  <div class="profile-details">
+    <div *ngIf="author.about_me" class="detail-section about-section">
+      <h2>О себе</h2>
+      <p>{{ author.about_me }}</p>
+    </div>
+    <div class="detail-section stats-section">
+      <p>Возраст: {{ author.age || '-' }}</p>
+      <p>Город: {{ author.city || '-' }}</p>
+    </div>
+  </div>
+  <div class="author-works">
+    <h2>Рецензии автора</h2>
+    <div *ngIf="isLoadingReviews" style="text-align: center; padding: 30px;">
+      Загрузка рецензий...
+    </div>
+    <div *ngIf="!isLoadingReviews && reviewsError" style="text-align: center; padding: 30px; color: red;">
+      {{ reviewsError }}
+    </div>
+    <div class="works-list reviews-list" *ngIf="!isLoadingReviews && !reviewsError">
+      <div *ngIf="reviews.length === 0" style="text-align: center; padding: 30px; color: #666;">
+        У этого автора пока нет рецензий.
+      </div>
+      <div class="review-item" *ngFor="let review of reviews">
+         <a [routerLink]="['/review-detail', review.id_review]" class="review-book-link">
+             <h3 class="review-book-title">{{ review.book_title }}</h3>
+         </a>
+         <div class="review-rating">
+             <i *ngFor="let star of [].constructor(5); let i = index" 
+                [class]="i < review.rating ? 'fas fa-star' : 'far fa-star'"
+                style="color: #f0ad4e;"></i>
+             ({{ review.rating }}/5)
+         </div>
+         <p class="review-text">{{ review.review_text || 'Нет комментария.' }}</p>
+         <p class="review-date">{{ review.created_at | date:'dd.MM.yyyy HH:mm' }}</p>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,73 @@
+header{
+    margin-top: 2px;
+}
+.header__controls{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+        z-index: 2;
+}
+header a{
+    font-size: 0.7vw;
+    color: black;
+    text-decoration: none;
+}
+header h1{
+    font-size: 1.5vw;
+}
+.header__logo{
+    border-radius: 52%;
+    height: 3vw;
+    width: 3vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
+}
+.search-bar{
+    display: flex;
+    align-items: center;
+}
+.search-bar input
+{
+    padding: 4px 10px;
+    margin-left: 8vw;    margin-right: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: white;
+    height: 1.2vw;
+    width: 18vw;
+    font-size: 0.8vw;
+}
+nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4vw;    padding: 0;
+    margin: 0;
+    margin-right: 3vw;
+}
+nav ul li{
+    display: inline;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #2b2828;
+    font-size: 1vw;
+    font-weight: 600;
+}
+.login__btn{
+    background-color: black;
+    color: white;
+    padding: 4px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 8vw;
+    height: 2vw;
+    font-size: 1vw;
+    margin-right: 2vw;
+}
+.profile__btn {
+    background-color: #FAF0E6;     color: #333333;     padding: 4px 15px;     border: none;     cursor: pointer;
+    border-radius: 5px;     width: 8vw;     height: 2vw;     font-size: 1vw;     margin-right: 2vw;     font-weight: 600; }
+.login__btn:hover,
+.profile__btn:hover {
+    opacity: 0.8; }

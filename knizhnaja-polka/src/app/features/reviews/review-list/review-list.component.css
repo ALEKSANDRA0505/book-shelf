@@ -1,0 +1,228 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: rgba(167, 147, 129, 0.568);
+}
+header{
+    margin-top: 2px;
+}
+.header__controls{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+        z-index: 2;
+}
+header a{
+    font-size: 0.7vw;
+    color: black;
+    text-decoration: none;
+}
+header h1{
+    font-size: 1.5vw;
+}
+.header__logo{
+    border-radius: 52%;
+    height: 3vw;
+    width: 3vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
+}
+.search-bar{
+    display: flex;
+    align-items: center;
+}
+.search-bar input
+{
+    padding: 4px 10px;
+    margin-left: 8vw;    margin-right: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: white;
+    height: 1.2vw;
+    width: 18vw;
+    font-size: 0.8vw;
+}
+nav ul{
+    list-style: none;
+    display: flex;
+    gap: 4vw;    padding: 0;
+    margin: 0;
+    margin-right: 3vw;
+}
+nav ul li{
+    display: inline;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #2b2828;
+    font-size: 1vw;
+    font-weight: 600;
+}
+.login__btn{
+    background-color: black;
+    color: white;
+    padding: 4px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 8vw;
+    height: 2vw;
+    font-size: 1vw;
+    margin-right: 2vw;
+}
+.review-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.review-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: left;
+}
+.review-content {
+    display: flex;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+.book-cover-container {
+    width: 200px;
+    margin-right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.book-cover {
+    width: 100%;
+    height: 250px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.book-cover img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.add-image-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+.add-image-btn:hover {
+    background-color: #5a6268;
+}
+.review-details {
+    flex: 1;
+    text-align: left;
+}
+.book-info {
+    margin-bottom: 20px;
+}
+.book-input {
+    display: block;
+        width: calc(100% - 20px);     padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Raleway', sans-serif;
+    box-sizing: border-box; }
+.book-title-placeholder {
+    height: 30px;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    width: 80%;
+}
+.rating-stars {
+    margin-bottom: 25px;
+    font-size: 30px;
+    color: #ddd;
+}
+.star {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.star.active {
+    color: #ffc107;
+}
+.genre-selector {
+    margin-bottom: 25px;
+}
+.genre-selector select {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+}
+.review-text-section {
+    text-align: left;
+}
+.review-text-section h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+#reviewText {
+    width: 100%;     padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: 'Raleway', sans-serif;     box-sizing: border-box;     min-height: 120px;     margin-bottom: 20px; }
+.submit-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.publish-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+.publish-btn:hover {
+    background-color: #555;
+}
+.alert {
+  padding: 10px 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 15px;
+}
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}

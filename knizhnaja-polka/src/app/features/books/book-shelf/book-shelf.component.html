@@ -1,0 +1,55 @@
+<div class="genres__photo"></div>
+<main>
+        <div class="genres">
+                <h1>Полки | Жанры</h1>
+                <div class="genre-section">
+                    <div *ngIf="isLoadingGenres" class="loading-indicator">Загрузка жанров...</div>
+                    <div *ngIf="!isLoadingGenres && genresError" class="error-message">{{ genresError }}</div>
+                    
+                    <div class="genre__container" #genreContainer *ngIf="!isLoadingGenres && !genresError">
+                        <a *ngFor="let genre of genres" 
+                           [routerLink]="genre.slug ? ['/genres', genre.slug] : null" 
+                           [class.disabled-link]="!genre.slug" 
+                           class="genre__item" 
+                           [style.backgroundImage]="'url(' + genre.image + ')'" 
+                           [title]="!genre.slug ? 'Слаг для этого жанра не задан' : genre.name">
+                            <h2>{{ genre.name }}</h2>
+                        </a>
+                    </div>
+                    <button class="scroll-btn scroll-left" id="scroll-genres-left" (click)="scrollGenres(-300)" [class.active]="showLeftArrow">
+                        <fa-icon [icon]="faArrowLeft"></fa-icon>
+                    </button>
+                    <button class="scroll-btn scroll-right" id="scroll-genres" (click)="scrollGenres(300)" [class.active]="showRightArrow">
+                        <fa-icon [icon]="faArrowRight"></fa-icon>
+                    </button>
+                </div>
+                
+                <a routerLink="/all_books" class="name"><h1>Полки | Все книги</h1></a>
+                <div class="books-section-wrapper">
+                    <div *ngIf="isLoadingBooks" class="loading-indicator">Загрузка книг...</div>
+                    <div *ngIf="!isLoadingBooks && booksError" class="error-message">{{ booksError }}</div>
+                    <div *ngIf="!isLoadingBooks && !booksError && randomBooks.length === 0" class="info-message">Нет книг для отображения.</div>
+                    <div class="book__container" *ngIf="!isLoadingBooks && !booksError && randomBooks.length > 0">
+                        <a *ngFor="let book of randomBooks" 
+                           [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}"
+                           class="book__item">
+                            <img [src]="book.cover_image_url || 'assets/img/placeholder.jpg'" [alt]="book.title">
+                            <h2>{{ book.title }}</h2>
+                            <p class="author">{{ getWritersString(book.writers) }}</p>
+                            <div class="rating">
+                                <ng-container *ngIf="book.average_rating !== null && book.average_rating !== undefined">
+                                    <i *ngFor="let star of getStars(book.average_rating)" [ngClass]="star" style="color: #f0ad4e;"></i>
+                                    <span style="margin-left: 5px; color: #6c757d; font-size: 0.9em;">({{ (book.average_rating || 0) | number:'1.1-1' }})</span>
+                                </ng-container>
+                                <ng-container *ngIf="book.average_rating === null || book.average_rating === undefined">
+                                    <span style="color: #6c757d; font-size: 0.9em;">Нет оценок</span>
+                                </ng-container>
+                            </div>
+                        </a>
+                        <a routerLink="/all-books" class="see-all">
+                            <fa-icon [icon]="faArrowRight"></fa-icon>
+                        </a>
+                    </div>
+                </div>
+        </div>
+</main>

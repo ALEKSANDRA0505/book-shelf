@@ -1,0 +1,141 @@
+<?php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+require_once __DIR__ . '/../includes/db_connection.php';
+require_once __DIR__ . '/../includes/api_helpers.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+setup_cors();
+if ($_SERVER['REQUEST_METHOD'] !== 'PUT' && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+    send_json_response(405, ['error' => 'Method Not Allowed. Expected PUT or POST']);
+}
+$admin_user_id = null; 
+$is_admin = false;
+$conn_check = null; 
+try {
+    $auth_header = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
+    if (!$auth_header || !preg_match('/^Bearer\s+(.*?)$/', $auth_header, $matches)) {
+        throw new Exception('Authorization header missing or invalid', 401);
+    }
+    $jwt = $matches[1];
+    $decoded = JWT::decode($jwt, new Key(JWT_SECRET_KEY, 'HS256'));
+    
+    if (!isset($decoded->data) || !isset($decoded->data->id_user)) {
+        throw new Exception('Invalid token payload structure', 401);
+    }
+    $admin_user_id = $decoded->data->id_user;
+    $conn_check = get_db_connection(); 
+    if (!$conn_check) {
+        throw new Exception('Database connection failed for admin check', 500);
+    }
+    $stmt_check_admin = $conn_check->prepare("SELECT status FROM UserProfile WHERE id_user = ?");
+    if (!$stmt_check_admin) throw new Exception('Failed to prepare admin check', 500);
+    $stmt_check_admin->bind_param("i", $admin_user_id);
+    $stmt_check_admin->execute();
+    $result_admin = $stmt_check_admin->get_result();
+    if ($admin_data = $result_admin->fetch_assoc()) {
+        if ($admin_data['status'] === 'Админ') {
+            $is_admin = true;
+        }
+    }
+    $stmt_check_admin->close();
+} catch (Exception $e) {
+    if ($conn_check) $conn_check->close();
+    $code = $e->getCode() ?: 401;
+    send_json_response($code, ['error' => 'Authentication failed', 'details' => $e->getMessage()]);
+}
+if (!$is_admin) {
+    if ($conn_check) $conn_check->close();
+    send_json_response(403, ['error' => 'Forbidden: Administrator access required.']);
+}
+$data = get_json_input();
+if (empty($data['id_book']) || !is_numeric($data['id_book']) || $data['id_book'] <= 0) {
+    send_json_response(400, ['error' => 'Valid Book ID is required']);
+}
+if (empty($data['title'])) {
+    send_json_response(400, ['error' => 'Book title is required']);
+}
+$id_book = intval($data['id_book']);
+$title = trim($data['title']);
+$description = isset($data['description']) ? trim($data['description']) : null;
+$cover_image_url = isset($data['cover_image_url']) ? trim($data['cover_image_url']) : null;
+$genre_ids = isset($data['genre_ids']) && is_array($data['genre_ids']) ? $data['genre_ids'] : [];
+$writer_ids = isset($data['writer_ids']) && is_array($data['writer_ids']) ? $data['writer_ids'] : [];
+if ($cover_image_url !== null && !filter_var($cover_image_url, FILTER_VALIDATE_URL) && !empty($cover_image_url)) {
+     if (!preg_match('/^\/assets\/img\/.*\.(jpg|jpeg|png|gif)$/i', $cover_image_url)) {
+        send_json_response(400, ['error' => 'Invalid cover image URL format']);
+    }
+}
+$validated_genre_ids = [];
+foreach ($genre_ids as $id) {
+    if (!is_numeric($id) || $id <= 0) {
+        send_json_response(400, ['error' => 'Invalid genre ID: ' . $id]);
+    }
+    $validated_genre_ids[] = intval($id);
+}
+$validated_writer_ids = [];
+foreach ($writer_ids as $id) {
+    if (!is_numeric($id) || $id <= 0) {
+        send_json_response(400, ['error' => 'Invalid writer ID: ' . $id]);
+    }
+    $validated_writer_ids[] = intval($id);
+}
+$conn = $conn_check ?? get_db_connection();
+if (!$conn) {
+    send_json_response(500, ['error' => 'Database connection failed']);
+}
+$conn->begin_transaction();
+try {
+    $stmt_book = $conn->prepare("UPDATE Book SET title = ?, description = ?, cover_image_url = ? WHERE id_book = ?");
+    if (!$stmt_book) {
+        throw new Exception('Failed to prepare book update statement: ' . $conn->error);
+    }
+    $stmt_book->bind_param('sssi', $title, $description, $cover_image_url, $id_book);
+    if (!$stmt_book->execute()) {
+        throw new Exception('Failed to update book: ' . $stmt_book->error);
+    }
+    $affected_rows = $stmt_book->affected_rows;
+    $stmt_book->close();
+    
+
+    $stmt_del_genre = $conn->prepare("DELETE FROM BookGenre WHERE id_book = ?");
+    if (!$stmt_del_genre) throw new Exception('Prep del genre failed: ' . $conn->error);
+    $stmt_del_genre->bind_param('i', $id_book);
+    if (!$stmt_del_genre->execute()) throw new Exception('Exec del genre failed: ' . $stmt_del_genre->error);
+    $stmt_del_genre->close();
+    if (!empty($validated_genre_ids)) {
+        $sql_genre = "INSERT INTO BookGenre (id_book, id_genre) VALUES (?, ?)";
+        $stmt_genre = $conn->prepare($sql_genre);
+        if (!$stmt_genre) throw new Exception('Prep ins genre failed: ' . $conn->error);
+        foreach ($validated_genre_ids as $genre_id) {
+            $stmt_genre->bind_param('ii', $id_book, $genre_id);
+            if (!$stmt_genre->execute()) throw new Exception('Exec ins genre failed: ' . $stmt_genre->error);
+        }
+        $stmt_genre->close();
+    }
+    $stmt_del_writer = $conn->prepare("DELETE FROM BookWriter WHERE id_book = ?");
+     if (!$stmt_del_writer) throw new Exception('Prep del writer failed: ' . $conn->error);
+    $stmt_del_writer->bind_param('i', $id_book);
+    if (!$stmt_del_writer->execute()) throw new Exception('Exec del writer failed: ' . $stmt_del_writer->error);
+    $stmt_del_writer->close();
+    if (!empty($validated_writer_ids)) {
+        $sql_writer = "INSERT INTO BookWriter (id_book, id_writer) VALUES (?, ?)";
+        $stmt_writer = $conn->prepare($sql_writer);
+        if (!$stmt_writer) throw new Exception('Prep ins writer failed: ' . $conn->error);
+        foreach ($validated_writer_ids as $writer_id) {
+            $stmt_writer->bind_param('ii', $id_book, $writer_id);
+            if (!$stmt_writer->execute()) throw new Exception('Exec ins writer failed: ' . $stmt_writer->error);
+        }
+        $stmt_writer->close();
+    }
+    $conn->commit();
+    send_json_response(200, ['message' => 'Book updated successfully', 'id_book' => $id_book]);
+} catch (Exception $e) {
+    $conn->rollback();
+    send_json_response(500, ['error' => 'Failed to update book: ' . $e->getMessage()]);
+} finally {
+    if ($conn) {
+        $conn->close();
+    }
+}
+?> 

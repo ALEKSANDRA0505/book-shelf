@@ -1,0 +1,241 @@
+<main *ngIf="authService.currentUser$ | async as profile; else loadingOrError">
+    <div class="profile-container">
+      <div class="profile-header">
+        <h2>Читательский билет</h2>
+        <div class="profile-info">
+          <div class="avatar-section">
+            <div class="profile-avatar" (click)="!isUploadingAvatar && avatarInput.click()" title="Изменить аватар"
+                 [class.uploading]="isUploadingAvatar">
+              <div *ngIf="isUploadingAvatar" class="avatar-upload-spinner">
+                <div class="spinner"></div>
+              </div>
+              <img [src]="profile.profile_picture_url || 'assets/img/default-avatar.png'" alt="Аватар пользователя">
+              <div class="edit-avatar-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+              </div>
+              <input type="file" hidden #avatarInput (change)="onFileSelected($event)" accept="image/png, image/jpeg, image/gif">
+            </div>
+            <div class="profile-name">{{ profile.username }}</div>
+            <div *ngIf="uploadError" class="avatar-upload-error">
+              {{ uploadError }}
+            </div>
+          </div>
+          
+          <div class="profile-details">
+            <div class="details-row">
+              <span class="detail-label">Возраст:</span>
+              <span class="detail-value">{{ profile.age || '' }}</span>
+            </div>
+            <div class="details-row">
+              <span class="detail-label">Город:</span>
+              <span class="detail-value">{{ profile.city || '' }}</span>
+            </div>
+            <div class="details-row">
+              <span class="detail-label">Статус:</span>
+              <span class="detail-value">{{ profile.status || '' }}</span>
+            </div>
+            <div class="profile-about">
+              <h3>О себе:</h3>
+              <p>{{ profile.about_me || '' }}</p>
+            </div>
+            <button class="btn edit-btn" (click)="openEditModal()">РЕДАКТИРОВАТЬ</button>
+          </div>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-label">Прочитано за год</div>
+              <div class="stat-bar">
+                <div class="stat-progress" [style.width.%]="readBooksPercent(profile)"></div>
+              </div>
+              <div class="stat-value">{{ profile.read_books_count || 0 }} из {{ profile.reading_goal || 0 }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Цель</div>
+              <div class="stat-value">{{ profile.reading_goal || 0 }} {{ declOfNum(profile.reading_goal, ['книга', 'книги', 'книг']) }}</div>
+            </div>
+            <button class="btn settings-btn" (click)="openSettingsModal()">НАСТРОИТЬ</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="profile-tabs">
+        <div class="tabs-header">
+          <div *ngFor="let tab of tabs" 
+               class="tab" 
+               [class.active]="currentTab === tab.id"
+               (click)="setCurrentTab(tab.id)">
+            {{ tab.name }}
+          </div>
+        </div>
+  
+        <div class="tabs-content">
+          <div class="tab-pane" [class.active]="currentTab === 'wishlist'" id="wishlist">
+            <div *ngIf="isLoadingWishlist" class="loading-indicator" style="text-align: center; padding: 40px;">
+              Загрузка виш-листа...
+            </div>
+            <div *ngIf="!isLoadingWishlist && wishlistError" class="error-message" style="text-align: center; padding: 40px; color: red;">
+              {{ wishlistError }}
+            </div>
+            <div *ngIf="!isLoadingWishlist && !wishlistError && wishlist.length === 0" style="text-align: center; padding: 40px; color: #666;">
+              Ваш виш-лист пока пуст.
+            </div>
+            <div class="wishlist-grid" *ngIf="!isLoadingWishlist && !wishlistError && wishlist.length > 0">
+              <a [routerLink]="['/book-detail']" [queryParams]="{id: book.id_book}" class="wishlist-book-card" *ngFor="let book of wishlist">
+                <img [src]="book.cover_image_url || 'assets/img/placeholder_book.png'" [alt]="book.title" class="book-cover">
+                <div class="book-info">
+                  <div>
+                    <h3>{{ book.title }}</h3>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+  
+          <div class="tab-pane" [class.active]="currentTab === 'reviews'" id="reviews">
+            <div class="reviews-header">
+              <a [routerLink]="['/review-list']" class="add-review-btn">Оставить рецензию</a>
+            </div>
+            
+            <div *ngIf="isLoadingReviews" class="loading-indicator" style="text-align: center; padding: 40px;">
+              Загрузка ваших рецензий...
+            </div>
+            <div *ngIf="!isLoadingReviews && reviewsError" class="error-message" style="text-align: center; padding: 40px; color: red;">
+              {{ reviewsError }}
+            </div>
+            <div *ngIf="!isLoadingReviews && !reviewsError && userReviews.length === 0" style="text-align: center; padding: 40px; color: #666;">
+              Вы пока не оставили ни одной рецензии.
+            </div>
+            <div class="reviews-list" *ngIf="!isLoadingReviews && !reviewsError && userReviews.length > 0">
+              <div class="review-item" *ngFor="let review of userReviews">
+                 <div class="review-item-header"> 
+                     <a [routerLink]="['/review-detail', review.id_review]" class="review-book-title">{{ review.book_title }}</a> 
+                     <span class="review-item-rating"> 
+                         <i *ngFor="let star of getStars(review.rating || 0)" [class]="star"></i>
+                     </span>
+                     <span class="review-item-date">{{ review.created_at | date:'dd.MM.yyyy HH:mm' }}</span> 
+                 </div> 
+                 <div class="review-item-content"> 
+                    <p>{{ review.review_text }}</p> 
+                 </div> 
+                 <div class="review-item-actions"> 
+                   <button class="btn-action delete" (click)="deleteReview(review.id_review)">Удалить</button>
+                 </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="tab-pane" [class.active]="currentTab === 'subscriptions'" id="subscriptions">
+            <div *ngIf="isLoadingSubscriptions" class="loading-indicator" style="text-align: center; padding: 40px;">
+              Загрузка подписок...
+            </div>
+            <div *ngIf="!isLoadingSubscriptions && subscriptionsError" class="error-message" style="text-align: center; padding: 40px; color: red;">
+              {{ subscriptionsError }}
+            </div>
+            <div *ngIf="!isLoadingSubscriptions && !subscriptionsError && subscriptions.length === 0" style="text-align: center; padding: 40px; color: #666;">
+              Вы пока ни на кого не подписаны.
+            </div>
+            <div class="subscriptions-list" *ngIf="!isLoadingSubscriptions && !subscriptionsError && subscriptions.length > 0">
+              <a [routerLink]="['/author-profile']" [queryParams]="{id: sub.id_user}" class="subscription-item" *ngFor="let sub of subscriptions">
+                <div class="subscription-avatar">
+                  <img [src]="sub.profile_picture_url || 'assets/img/default-avatar.png'" [alt]="sub.username">
+                </div>
+                <div class="subscription-info">
+                  <p class="subscription-name">{{ sub.username }}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="logout-section" style="text-align: right; margin-top: 30px; padding-right: 20px;">
+          <button class="btn logout-btn" (click)="logout()" style="background-color: #6c757d; color: white;">Выйти</button>
+      </div>
+    </div>
+</main>
+<ng-template #loadingOrError>
+  <div *ngIf="authService.isLoading$ | async; else errorState" class="loading-indicator" style="text-align: center; padding: 50px; font-size: 1.2em;">
+    Загрузка профиля...
+  </div>
+  <ng-template #errorState>
+      <div class="loading-indicator" style="text-align: center; padding: 50px; font-size: 1.2em; color: red;">
+          Не удалось загрузить профиль пользователя.
+      </div>
+  </ng-template>
+</ng-template>
+<div class="modal" [style.display]="isEditModalOpen ? 'block' : 'none'">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeEditModal()">&times;</span>
+      <h2>Редактирование профиля</h2>
+      <form [formGroup]="editForm" (ngSubmit)="saveEditForm()">
+        <div class="form-group">
+          <label for="editName">Имя пользователя:</label>
+          <input type="text" id="editName" formControlName="username" placeholder="Введите имя пользователя">
+        </div>
+        <div class="form-group">
+          <label for="editAge">Возраст:</label>
+          <input type="number" id="editAge" formControlName="age" placeholder="Введите возраст">
+        </div>
+        <div class="form-group">
+          <label for="editCity">Город:</label>
+          <input type="text" id="editCity" formControlName="city" placeholder="Введите город">
+        </div>
+        <div class="form-group">
+          <label for="editStatus">Статус:</label>
+          <select id="editStatus" formControlName="status" class="form-select">
+            <option value="" disabled>Выберите статус</option>
+            <option value="Читатель">Читатель</option>
+            <option value="Автор">Автор</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editAbout">О себе:</label>
+          <textarea id="editAbout" formControlName="about_me" rows="4" placeholder="Расскажите о себе"></textarea>
+        </div>
+        <div *ngIf="saveError" class="error-message" style="margin-bottom: 15px;">
+          {{ saveError }}
+        </div>
+        <div *ngIf="isSaving" class="loading-indicator" style="margin-bottom: 15px;">
+          Сохранение...
+        </div>
+        <button type="submit" class="btn save-btn" [disabled]="isSaving || !editForm.valid">
+          {{ isSaving ? 'Сохранение...' : 'Сохранить' }}
+        </button>
+      </form>
+    </div>
+</div>
+  
+<div class="modal" [style.display]="isSettingsModalOpen ? 'block' : 'none'">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeSettingsModal()">&times;</span>
+      <h2>Настройки</h2>
+      <form [formGroup]="settingsForm" (ngSubmit)="saveSettingsForm()">
+        <div class="form-group">
+          <label for="readBooks">Прочитано книг:</label>
+          <input type="number" id="readBooks" formControlName="readBooks" min="0">
+        </div>
+        <div class="form-group">
+          <label for="goalBooks">Цель на год:</label>
+          <input type="number" id="goalBooks" formControlName="reading_goal" min="1">
+        </div>
+        
+        <div class="form-group books-list-section">
+          <label>Список прочитанных книг:</label>
+          <div class="books-list">
+            <div class="book-item" *ngFor="let book of readBooks; let i = index">
+              <p class="book-title">{{ book.title }}</p>
+              <p class="book-author">{{ book.author }}</p>
+            </div>
+          </div>
+          <div class="add-book-form">
+            <input type="text" [(ngModel)]="newBook.title" [ngModelOptions]="{standalone: true}" 
+                   placeholder="Название книги" class="book-input">
+            <input type="text" [(ngModel)]="newBook.author" [ngModelOptions]="{standalone: true}" 
+                   placeholder="Автор" class="book-input">
+            <button type="button" class="btn add-book-btn" (click)="addBook()">Добавить книгу</button>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn save-btn">Сохранить</button>
+      </form>
+    </div>
+</div>

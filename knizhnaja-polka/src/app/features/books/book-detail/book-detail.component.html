@@ -1,0 +1,117 @@
+<main class="book-page">
+  <div *ngIf="isLoading" style="text-align: center; padding: 50px;">
+    Загрузка данных книги...
+  </div>
+  <div *ngIf="error" style="text-align: center; padding: 50px; color: red;">
+    {{ error }}
+  </div>
+  <div *ngIf="!isLoading && !error && book">
+    <div class="back-button">
+      <a (click)="goBack()" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></a>
+    </div>
+    
+    <div class="book-details">
+      <div class="book-image">
+        <img [src]="book.cover_image_url || 'assets/img/placeholder_book.png'" [alt]="book.title">
+      </div>
+      
+      <div class="book-info">
+        <h1>{{ book.title }}</h1>
+        <p>{{ getAuthorNames() }}</p> 
+        <div class="book-rating">
+          <span class="stars">
+            <i *ngFor="let starClass of getStars(getAverageBookRating())" [class]="starClass"></i> 
+          </span>
+          <span class="rating-value" *ngIf="reviews && reviews.length > 0">
+            {{ getAverageBookRating() }} ({{ reviews.length }} {{ declension(reviews.length, ['рецензия', 'рецензии', 'рецензий']) }})
+          </span>
+          <span class="buy-link">
+            <a [href]="getYandexSearchUrl()"
+               target="_blank" 
+               rel="noopener noreferrer">Где купить?</a>
+          </span>
+        </div>
+        
+        <div class="book-description">
+          <p>{{ book.description || 'Описание отсутствует.' }}</p>
+        </div>
+        
+        <div class="add-to-wishlist">
+          <button (click)="toggleWishlist()">
+            <i [class]="isInWishlist ? 'fas fa-heart' : 'far fa-heart'"></i> {{ isInWishlist ? 'В виш-листе' : 'В виш-лист' }}
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="reviews-section">
+      <h2>Рецензии</h2>
+      <div *ngIf="reviewsError" style="text-align: center; padding: 30px; color: red;">
+        {{ reviewsError }}
+      </div>
+      <div *ngIf="isLoadingReviews" style="text-align: center; padding: 30px; color: #666;">
+        Загрузка рецензий...
+      </div>
+      <div *ngIf="!isLoadingReviews && !reviewsError && reviews.length === 0" style="text-align: center; padding: 30px; color: #666;">
+        Пока нет рецензий на эту книгу.
+      </div>
+      <div class="review-container" *ngIf="!isLoadingReviews && !reviewsError && reviews.length > 0">
+        <div class="review-nav-buttons">
+          <button class="review-nav left" (click)="showPreviousReview()" [disabled]="reviews.length <= 1"><i class="fas fa-chevron-left"></i></button>
+          <button class="review-nav right" (click)="showNextReview()" [disabled]="reviews.length <= 1"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="review" *ngIf="currentReview"> 
+          <a [routerLink]="['/review-detail', currentReview.id_review]" class="review-link">
+            <div class="review-header">
+              <img [src]="currentReview.profile_picture_url || 'assets/img/default-avatar.png'" 
+                   alt="Аватар пользователя {{ currentReview.user_username }}" 
+                   class="reviewer-avatar">
+              <div class="reviewer-info">
+                <h3>{{ currentReview.user_username || 'Аноним' }}</h3>
+                <button class="subscribe-btn" (click)="subscribeToAuthor(currentReview.id_user)" *ngIf="!isCurrentUserAuthor && isUserAuthorStatus()">
+                  {{ isAuthorSubscribed ? 'Вы подписаны' : 'Подписаться' }}
+                </button>
+                <p class="review-date">{{ currentReview.created_at | date:'dd.MM.yyyy HH:mm' }}</p>
+              </div>
+              <div class="reviewer-rating">
+                <i *ngFor="let starClass of getStars(currentReview.rating || 0)" [class]="starClass"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              <p>{{ currentReview.review_text }}</p> 
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="similar-books">
+      <h2>Похожие книги</h2>
+      <div *ngIf="isLoadingSimilarBooks" style="text-align: center; padding: 30px; color: #666;">
+        Загрузка похожих книг...
+      </div>
+      <div *ngIf="!isLoadingSimilarBooks && similarBooks.length === 0" style="text-align: center; padding: 30px; color: #666;">
+        Похожих книг не найдено.
+      </div>
+      <div class="similar-books-container" *ngIf="!isLoadingSimilarBooks && similarBooks.length > 0">
+        <div class="similar-nav-buttons">
+          <button class="similar-nav left" (click)="scrollSimilarBooks(-200)"><i class="fas fa-chevron-left"></i></button>
+          <button class="similar-nav right" (click)="scrollSimilarBooks(200)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="similar-books-grid" #similarBooksGrid>
+          <a [routerLink]="['/book-detail']" [queryParams]="{id: similarBook.id}" class="similar-book" *ngFor="let similarBook of similarBooks">
+            <img [src]="similarBook.imageUrl" [alt]="similarBook.title">
+            <h3>{{ similarBook.title }}</h3>
+            <!-- 
+            <div class="similar-book-rating">
+              <i *ngFor="let star of similarBook.stars" [class]="star"></i> 
+            </div> 
+            -->
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

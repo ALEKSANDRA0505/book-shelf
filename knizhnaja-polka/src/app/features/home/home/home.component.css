@@ -1,0 +1,478 @@
+body{
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.about__photo{
+    width: 100%;
+    height: 100vh;
+    background: url('/assets/img/main_photo.jpg') no-repeat center center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.hero{
+    padding: 50px 20px;
+        position: relative;
+}
+.hero h1{
+    font-size: 2.5vw;
+    font-weight: bold;
+    z-index: 2;
+    position: relative;
+    text-align: right;
+    margin-right: 3vw;
+    text-shadow: 1px 1px 7px white;
+}
+.hero p{
+    font-size: 1.8vw;
+    color: rgb(49, 47, 47);
+    position: relative;
+    z-index: 2;
+    text-align: center;
+        font-weight: 400;
+    text-shadow: 1px 1px 7px white;
+}
+.popular{
+    margin-top: 60vh;
+    text-align: center;
+    padding: 0 20px;
+}
+.popular h1{
+    font-size: 2.5vw;
+    text-shadow: 1px 1px 7px white;
+    margin-bottom: 40px;
+}
+.book-list{
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    margin-top: 20px;
+    position: relative;
+    padding: 10px 50px;
+    overflow: hidden;
+}
+.book-list .prev__btn,
+.book-list .next__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.book-list .prev__btn {
+    left: 5px;
+}
+.book-list .next__btn {
+    right: 5px;
+}
+.book-list .prev__btn:hover, 
+.book-list .next__btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.book-list .prev__btn[disabled],
+.book-list .next__btn[disabled] {
+    opacity: 0.5;
+    cursor: default;
+    transform: translateY(-50%);
+    background-color: rgba(200, 200, 200, 0.5);
+}
+.book-card{
+    max-width: 200px;
+    flex: 0 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+.book-card h3 {
+    font-size: 1em;
+    font-weight: 600;
+    margin: 10px 10px 5px 10px;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.4em; 
+}
+.book-card p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0 10px 10px 10px;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; 
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.book-card .rating {
+    margin: 0 10px 10px 10px;
+    font-size: 0.9em;
+    text-align: left;
+}
+.about__menu{
+    margin-top: 8vw;
+    text-align: center;
+    margin-bottom: 4vw;
+}
+.about__menu h2{
+    text-shadow: 1px 1px 7px white;
+    font-size: 2vw;
+}
+.about__menu p{
+    text-shadow: 1px 1px 7px white;
+    font-size: 1.5vw;
+    margin-bottom: 2vw;
+}
+.menu__controls{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1vw;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+.menu__controls .prev__btn,
+.menu__controls .next__btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #eee;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    appearance: none;
+    padding: 0;
+}
+.menu__controls .prev__btn:hover,
+.menu__controls .next__btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.about_menu-button{
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 1.5vw;
+    font-size: 1.2vw;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.about_menu-button:hover {
+    background-color: #333;
+    transform: translateY(-3px);
+}
+.menu-slide {
+    min-height: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50vw;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.profile-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+  
+.profile-icon {
+    margin-right: 8px;
+    font-size: 20px;
+}
+@media screen and (min-width: 1200px) {
+    .menu-slide {
+        width: 40vw;
+        padding: 30px;
+    }
+    .book-list {
+        justify-content: center;
+        gap: 2vw;
+    }
+}
+@media screen and (max-width: 1199px) and (min-width: 769px) {
+    header h1 {
+        font-size: 2vw;
+    }
+    .header__logo {
+        height: 4vw;
+        width: 4vw;
+    }
+    .search-bar input {
+        margin-left: 4vw;
+        width: 16vw;
+    }
+    nav ul {
+        gap: 3vw;
+    }
+    nav ul li a {
+        font-size: 1.2vw;
+    }
+    .login__btn {
+        width: 10vw;
+        font-size: 1.2vw;
+    }
+    .hero h1 {
+        font-size: 3vw;
+    }
+    .hero p {
+        font-size: 2vw;
+    }
+    .popular {
+        margin-top: 35vw;
+    }
+    .menu-slide {
+        width: 60vw;
+    }
+    .about_menu-button {
+        font-size: 1.4vw;
+    }
+}
+@media screen and (max-width: 768px) and (min-width: 481px) {
+    .header__controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .header__logo {
+        height: 6vw;
+        width: 6vw;
+        margin-bottom: 1vw;
+    }
+    header h1 {
+        font-size: 3vw;
+        margin-bottom: 1vw;
+    }
+    .search-bar {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 1vw;
+    }
+    .search-bar input {
+        margin-left: 0;
+        width: 50vw;
+        height: 3vw;
+        font-size: 1.5vw;
+    }
+    nav ul {
+        gap: 4vw;
+        margin: 2vw 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    nav ul li a {
+        font-size: 2vw;
+    }
+    .login__btn {
+        width: 15vw;
+        height: 4vw;
+        font-size: 2vw;
+        margin: 2vw 0;
+    }
+    .hero h1 {
+        font-size: 4vw;
+        text-align: center;
+        margin-right: 0;
+    }
+    .hero p {
+        font-size: 2.5vw;
+    }
+    .popular {
+        margin-top: 50vw;
+    }
+    .popular h1 {
+        font-size: 5vw;
+    }
+    .book-list {
+        padding: 10px 40px;
+        gap: 15px;
+    }
+    .book-card {
+        max-width: 160px;
+    }
+    .book-card img {
+        height: 200px;
+    }
+    .book-list .prev__btn,
+    .book-list .next__btn {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+    .book-list .prev__btn { left: 2px; }
+    .book-list .next__btn { right: 2px; }
+    .about__menu {
+        margin-top: 15vw;
+    }
+    .about__menu h2 {
+        font-size: 3vw;
+    }
+    .about__menu p {
+        font-size: 2vw;
+    }
+    .menu-slide {
+        width: 70vw;
+        min-height: 150px;
+    }
+    .about_menu-button {
+        font-size: 2vw;
+        padding: 10px 15px;
+    }
+    .menu__controls {
+        gap: 2vw;
+    }
+}
+@media screen and (max-width: 480px) {
+    .header__controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    .header__logo {
+        height: 10vw;
+        width: 10vw;
+        margin: 2vw 0;
+    }
+    header h1 {
+        font-size: 5vw;
+        margin: 1vw 0;
+    }
+    .search-bar {
+        width: 90%;
+        margin: 2vw 0;
+    }
+    .search-bar input {
+        margin-left: 0;
+        width: 90%;
+        height: 5vw;
+        font-size: 3vw;
+    }
+    nav ul {
+        flex-direction: column;
+        gap: 2vw;
+        margin: 3vw 0;
+    }
+    nav ul li a {
+        font-size: 4vw;
+    }
+    .login__btn {
+        width: 40vw;
+        height: 8vw;
+        font-size: 3.5vw;
+        margin: 2vw 0;
+    }
+    .hero {
+        padding: 20px 10px;
+    }
+    .hero h1 {
+        font-size: 6vw;
+        text-align: center;
+        margin-right: 0;
+    }
+    .hero p {
+        font-size: 4vw;
+    }
+    .popular {
+        margin-top: 70vw;
+    }
+    .popular h1 {
+        font-size: 6vw;
+    }
+    .book-list {
+        padding: 10px 30px;
+        gap: 10px;
+    }
+    .book-card {
+        max-width: 130px;
+    }
+    .book-card img {
+        height: 180px;
+    }
+    .book-list .prev__btn,
+    .book-list .next__btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+    .book-list .prev__btn { left: 1px; }
+    .book-list .next__btn { right: 1px; }
+    .about__menu {
+        margin-top: 10vw;
+    }
+    .about__menu h2 {
+        font-size: 5vw;
+    }
+    .about__menu p {
+        font-size: 3.5vw;
+    }
+    .menu-slide {
+        width: 80vw;
+        min-height: 120px;
+        padding: 15px;
+    }
+    .about_menu-button {
+        font-size: 3.5vw;
+        padding: 8px 12px;
+        margin-top: 3vw;
+    }
+    .menu__controls {
+        gap: 1vw;
+    }
+    .menu__controls .prev__btn,
+    .menu__controls .next__btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
